@@ -1,0 +1,88 @@
+<%- include("./partials/layout-start", { pageTitle, notice, error }) %>
+
+<div class="mx-auto max-w-4xl">
+  <div class="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+    <section class="rounded-3xl border-4 border-black bg-dracula-surface p-6 shadow-brutal">
+      <p class="text-sm uppercase tracking-[0.35em] text-dracula-muted">Authentication</p>
+      <h2 class="mt-2 text-3xl font-black">Đăng nhập hệ thống</h2>
+      <p class="mt-3 text-dracula-muted">
+        Dùng tài khoản mẫu <span class="font-bold text-dracula-cyan">admin / 123456</span> để vào dashboard.
+      </p>
+
+      <form action="/login" method="post" class="mt-6 space-y-4">
+        <div>
+          <label class="mb-2 block text-sm font-bold">Tài khoản</label>
+          <div class="flex items-center gap-3 rounded-2xl border-4 border-black bg-dracula-panel px-4 py-3 shadow-brutal">
+            <i class="fa-solid fa-user text-dracula-cyan"></i>
+            <input
+              name="username"
+              type="text"
+              placeholder="Nhập username"
+              class="w-full bg-transparent outline-none placeholder:text-dracula-muted"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="mb-2 block text-sm font-bold">Mật khẩu</label>
+          <div class="flex items-center gap-3 rounded-2xl border-4 border-black bg-dracula-panel px-4 py-3 shadow-brutal">
+            <i class="fa-solid fa-lock text-dracula-pink"></i>
+            <input
+              name="password"
+              type="password"
+              placeholder="Nhập password"
+              class="w-full bg-transparent outline-none placeholder:text-dracula-muted"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full rounded-2xl border-4 border-black bg-dracula-primary px-5 py-4 text-lg font-black text-black shadow-brutal"
+        >
+          <i class="fa-solid fa-right-to-bracket mr-2"></i>Đăng nhập ngay
+        </button>
+      </form>
+
+      <div class="mt-6 grid gap-3 sm:grid-cols-2">
+        <div class="rounded-2xl border-4 border-black bg-dracula-panel p-4">
+          <p class="text-sm text-dracula-muted">Theme</p>
+          <p class="mt-1 font-black">Dracula VS Code</p>
+        </div>
+        <div class="rounded-2xl border-4 border-black bg-dracula-panel p-4">
+          <p class="text-sm text-dracula-muted">Bố cục</p>
+          <p class="mt-1 font-black">Dashboard + Admin</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-3xl border-4 border-black bg-dracula-panel p-6 shadow-brutal">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm uppercase tracking-[0.35em] text-dracula-muted">Preview</p>
+          <h3 class="text-2xl font-black">Truy cập nhanh</h3>
+        </div>
+        <div class="rounded-2xl border-4 border-black bg-dracula-pink px-4 py-2 font-black text-black shadow-brutal">
+          <i class="fa-solid fa-sparkles mr-2"></i>Live
+        </div>
+      </div>
+
+      <div class="mt-6 grid gap-4">
+        <a href="/dashboard" class="rounded-2xl border-4 border-black bg-dracula-surface p-5 shadow-brutal">
+          <p class="font-black text-xl">Dashboard</p>
+          <p class="mt-1 text-sm text-dracula-muted">Tổng quan số dư, order và giao dịch</p>
+        </a>
+        <a href="/credit" class="rounded-2xl border-4 border-black bg-dracula-surface p-5 shadow-brutal">
+          <p class="font-black text-xl">Nạp Credit</p>
+          <p class="mt-1 text-sm text-dracula-muted">Tạo yêu cầu nạp và xem thông tin ngân hàng</p>
+        </a>
+        <a href="/admin" class="rounded-2xl border-4 border-black bg-dracula-surface p-5 shadow-brutal">
+          <p class="font-black text-xl">Admin Panel</p>
+          <p class="mt-1 text-sm text-dracula-muted">Theo dõi người dùng, dịch vụ, doanh thu</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</div>
+
+<%- include("./partials/layout-end") %>

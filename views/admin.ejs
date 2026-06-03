@@ -1,0 +1,113 @@
+<%- include("./partials/layout-start", { pageTitle, notice, error }) %>
+
+<div class="grid gap-6">
+  <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <% adminStats.forEach((stat) => { %>
+      <div class="rounded-3xl border-4 border-black bg-dracula-panel p-5 shadow-brutal">
+        <p class="text-sm font-bold text-dracula-muted"><%= stat.label %></p>
+        <p class="mt-2 text-3xl font-black"><%= stat.value %></p>
+        <p class="mt-2 inline-flex rounded-full border-2 border-black bg-dracula-surface px-3 py-1 text-xs font-bold text-dracula-cyan">
+          <i class="fa-solid fa-arrow-trend-up mr-1"></i><%= stat.delta %>
+        </p>
+      </div>
+    <% }) %>
+  </section>
+
+  <section class="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+    <div class="rounded-3xl border-4 border-black bg-dracula-surface p-6 shadow-brutal">
+      <p class="text-sm uppercase tracking-[0.35em] text-dracula-muted">Admin tools</p>
+      <h2 class="mt-2 text-3xl font-black">Quản trị hệ thống</h2>
+
+      <div class="mt-6 space-y-3">
+        <div class="rounded-2xl border-4 border-black bg-dracula-panel p-4">
+          <p class="font-black text-xl">Người dùng</p>
+          <p class="mt-1 text-sm text-dracula-muted">Quản lý tài khoản, trạng thái và phân quyền.</p>
+        </div>
+        <div class="rounded-2xl border-4 border-black bg-dracula-panel p-4">
+          <p class="font-black text-xl">Dịch vụ</p>
+          <p class="mt-1 text-sm text-dracula-muted">Cấu hình giá, giới hạn và loại dịch vụ.</p>
+        </div>
+        <div class="rounded-2xl border-4 border-black bg-dracula-panel p-4">
+          <p class="font-black text-xl">Đơn hàng</p>
+          <p class="mt-1 text-sm text-dracula-muted">Theo dõi trạng thái, xử lý lỗi và hoàn tiền.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-3xl border-4 border-black bg-dracula-panel p-6 shadow-brutal">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <p class="text-sm uppercase tracking-[0.35em] text-dracula-muted">Services</p>
+          <h2 class="mt-2 text-2xl font-black">Bảng dịch vụ</h2>
+        </div>
+        <div class="rounded-2xl border-4 border-black bg-dracula-primary px-4 py-3 font-black text-black shadow-brutal">
+          <i class="fa-solid fa-layer-group mr-2"></i><%= services.length %> dịch vụ
+        </div>
+      </div>
+
+      <div class="mt-5 overflow-x-auto">
+        <table class="min-w-full border-separate border-spacing-y-3">
+          <thead>
+            <tr class="text-left text-sm uppercase tracking-[0.2em] text-dracula-muted">
+              <th class="px-4 py-2">Tên</th>
+              <th class="px-4 py-2">Giá</th>
+              <th class="px-4 py-2">Min</th>
+              <th class="px-4 py-2">Max</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% services.forEach((service) => { %>
+              <tr class="rounded-2xl border-4 border-black bg-dracula-surface">
+                <td class="px-4 py-4 font-bold"><%= service.name %></td>
+                <td class="px-4 py-4 text-dracula-cyan"><%= service.price.toLocaleString("vi-VN") %>/1k</td>
+                <td class="px-4 py-4"><%= service.min.toLocaleString("vi-VN") %></td>
+                <td class="px-4 py-4"><%= service.max.toLocaleString("vi-VN") %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="rounded-3xl border-4 border-black bg-dracula-surface p-6 shadow-brutal">
+    <div class="flex items-center justify-between gap-4">
+      <div>
+        <p class="text-sm uppercase tracking-[0.35em] text-dracula-muted">Orders</p>
+        <h2 class="mt-2 text-2xl font-black">Đơn gần đây</h2>
+      </div>
+      <span class="rounded-full border-4 border-black bg-dracula-pink px-4 py-2 font-bold text-black shadow-brutal">
+        <i class="fa-solid fa-bullhorn mr-2"></i><%= orders.length %> order
+      </span>
+    </div>
+
+    <div class="mt-5 overflow-x-auto">
+      <table class="min-w-full border-separate border-spacing-y-3">
+        <thead>
+          <tr class="text-left text-sm uppercase tracking-[0.2em] text-dracula-muted">
+            <th class="px-4 py-2">Mã</th>
+            <th class="px-4 py-2">Dịch vụ</th>
+            <th class="px-4 py-2">Trạng thái</th>
+            <th class="px-4 py-2 text-right">Chi phí</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% orders.forEach((order) => { %>
+            <tr class="rounded-2xl border-4 border-black bg-dracula-panel">
+              <td class="px-4 py-4 font-bold"><%= order.code %></td>
+              <td class="px-4 py-4"><%= order.service %></td>
+              <td class="px-4 py-4">
+                <span class="inline-flex rounded-full border-2 border-black px-3 py-1 text-xs font-bold <%= order.status === 'Hoàn thành' ? 'bg-dracula-green text-black' : order.status === 'Đang chạy' ? 'bg-dracula-yellow text-black' : 'bg-dracula-pink text-black' %>">
+                  <%= order.status %>
+                </span>
+              </td>
+              <td class="px-4 py-4 text-right font-black text-dracula-cyan"><%= order.cost.toLocaleString("vi-VN") %>đ</td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<%- include("./partials/layout-end") %>

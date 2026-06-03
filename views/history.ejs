@@ -1,0 +1,92 @@
+<%- include("./partials/layout-start", { pageTitle, notice, error }) %>
+
+<div class="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+  <section class="rounded-3xl border-4 border-black bg-dracula-surface p-6 shadow-brutal">
+    <div class="flex items-center justify-between gap-4">
+      <div>
+        <p class="text-sm uppercase tracking-[0.35em] text-dracula-muted">History</p>
+        <h2 class="mt-2 text-3xl font-black">Lịch sử order</h2>
+      </div>
+      <div class="rounded-2xl border-4 border-black bg-dracula-pink px-4 py-3 font-black text-black shadow-brutal">
+        <i class="fa-solid fa-list-check mr-2"></i><%= orders.length %> đơn
+      </div>
+    </div>
+
+    <div class="mt-6 overflow-x-auto">
+      <table class="min-w-full border-separate border-spacing-y-3">
+        <thead>
+          <tr class="text-left text-sm uppercase tracking-[0.2em] text-dracula-muted">
+            <th class="px-4 py-2">Mã</th>
+            <th class="px-4 py-2">Dịch vụ</th>
+            <th class="px-4 py-2">Target</th>
+            <th class="px-4 py-2">SL</th>
+            <th class="px-4 py-2">Trạng thái</th>
+            <th class="px-4 py-2 text-right">Chi phí</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% orders.forEach((order) => { %>
+            <tr class="rounded-2xl border-4 border-black bg-dracula-panel">
+              <td class="px-4 py-4 font-bold"><%= order.code %></td>
+              <td class="px-4 py-4"><%= order.service %></td>
+              <td class="px-4 py-4 text-sm text-dracula-muted"><%= order.target %></td>
+              <td class="px-4 py-4 font-bold"><%= order.quantity %></td>
+              <td class="px-4 py-4">
+                <span class="inline-flex rounded-full border-2 border-black px-3 py-1 text-xs font-bold <%= order.status === 'Hoàn thành' ? 'bg-dracula-green text-black' : order.status === 'Đang chạy' ? 'bg-dracula-yellow text-black' : 'bg-dracula-pink text-black' %>">
+                  <%= order.status %>
+                </span>
+              </td>
+              <td class="px-4 py-4 text-right font-black text-dracula-cyan"><%= order.cost.toLocaleString("vi-VN") %>đ</td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="space-y-6">
+    <div class="rounded-3xl border-4 border-black bg-dracula-panel p-6 shadow-brutal">
+      <p class="text-sm uppercase tracking-[0.35em] text-dracula-muted">Transactions</p>
+      <h3 class="mt-2 text-2xl font-black">Giao dịch gần đây</h3>
+      <div class="mt-5 space-y-4">
+        <% transactions.forEach((tx) => { %>
+          <div class="rounded-2xl border-4 border-black bg-dracula-surface p-4">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <p class="font-bold"><%= tx.label %></p>
+                <p class="text-sm text-dracula-muted"><%= tx.time %></p>
+              </div>
+              <div class="text-right">
+                <p class="font-black <%= tx.amount > 0 ? 'text-dracula-green' : 'text-dracula-yellow' %>">
+                  <%= tx.amount > 0 ? '+' : '' %><%= Math.abs(tx.amount).toLocaleString("vi-VN") %>đ
+                </p>
+                <p class="text-xs text-dracula-muted"><%= tx.status %></p>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <div class="rounded-3xl border-4 border-black bg-dracula-surface p-6 shadow-brutal">
+      <p class="text-sm uppercase tracking-[0.35em] text-dracula-muted">Summary</p>
+      <h3 class="mt-2 text-2xl font-black">Tổng quan</h3>
+      <div class="mt-5 grid gap-3">
+        <div class="rounded-2xl border-4 border-black bg-dracula-panel p-4">
+          <p class="text-sm text-dracula-muted">Số order hoàn thành</p>
+          <p class="mt-1 text-2xl font-black text-dracula-green">1,942</p>
+        </div>
+        <div class="rounded-2xl border-4 border-black bg-dracula-panel p-4">
+          <p class="text-sm text-dracula-muted">Đang xử lý</p>
+          <p class="mt-1 text-2xl font-black text-dracula-yellow">24</p>
+        </div>
+        <div class="rounded-2xl border-4 border-black bg-dracula-panel p-4">
+          <p class="text-sm text-dracula-muted">Credit đã dùng</p>
+          <p class="mt-1 text-2xl font-black text-dracula-cyan">3.24M</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<%- include("./partials/layout-end") %>

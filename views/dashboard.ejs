@@ -1,0 +1,120 @@
+<%- include("./partials/layout-start", { pageTitle, notice, error }) %>
+
+<div class="grid gap-6">
+  <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <% stats.forEach((stat) => { %>
+      <div class="rounded-3xl border-4 border-black bg-dracula-panel p-5 shadow-brutal">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border-4 border-black bg-dracula-primary text-black">
+          <i class="fa-solid <%= stat.icon %> text-xl"></i>
+        </div>
+        <p class="text-sm font-bold text-dracula-muted"><%= stat.label %></p>
+        <p class="mt-2 text-3xl font-black"><%= stat.value %></p>
+        <p class="mt-2 inline-flex rounded-full border-2 border-black bg-dracula-surface px-3 py-1 text-xs font-bold text-dracula-cyan">
+          <i class="fa-solid fa-arrow-trend-up mr-1"></i>
+          <%= stat.accent %>
+        </p>
+      </div>
+    <% }) %>
+  </section>
+
+  <section class="grid gap-6 xl:grid-cols-[1.4fr_0.9fr]">
+    <div class="rounded-3xl border-4 border-black bg-dracula-surface p-5 shadow-brutal">
+      <div class="mb-5 flex items-center justify-between">
+        <div>
+          <p class="text-sm uppercase tracking-[0.3em] text-dracula-muted">Quick Actions</p>
+          <h2 class="text-2xl font-black">Bảng điều khiển</h2>
+        </div>
+        <a href="/orders" class="rounded-xl border-4 border-black bg-dracula-pink px-4 py-2 font-bold text-black shadow-brutal">
+          <i class="fa-solid fa-circle-plus mr-2"></i>Tạo order
+        </a>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <a href="/credit" class="rounded-2xl border-4 border-black bg-dracula-panel p-5 shadow-brutal transition hover:-translate-y-1">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-black text-xl">Nạp Credit</p>
+              <p class="mt-1 text-sm text-dracula-muted">Tăng số dư nhanh chóng</p>
+            </div>
+            <i class="fa-solid fa-wallet text-3xl text-dracula-green"></i>
+          </div>
+        </a>
+        <a href="/history" class="rounded-2xl border-4 border-black bg-dracula-panel p-5 shadow-brutal transition hover:-translate-y-1">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-black text-xl">Lịch sử</p>
+              <p class="mt-1 text-sm text-dracula-muted">Theo dõi giao dịch</p>
+            </div>
+            <i class="fa-solid fa-clock-rotate-left text-3xl text-dracula-cyan"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="rounded-3xl border-4 border-black bg-dracula-surface p-5 shadow-brutal">
+      <p class="text-sm uppercase tracking-[0.3em] text-dracula-muted">Thông báo</p>
+      <h2 class="text-2xl font-black">Thông tin nhanh</h2>
+      <div class="mt-5 space-y-4">
+        <% transactions.forEach((tx) => { %>
+          <div class="rounded-2xl border-4 border-black bg-dracula-panel p-4">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <p class="font-bold"><%= tx.label %></p>
+                <p class="text-sm text-dracula-muted"><%= tx.time %></p>
+              </div>
+              <div class="text-right">
+                <p class="font-black <%= tx.amount > 0 ? 'text-dracula-green' : 'text-dracula-yellow' %>">
+                  <%= tx.amount > 0 ? '+' : '' %><%= Math.abs(tx.amount).toLocaleString('vi-VN') %>đ
+                </p>
+                <p class="text-xs text-dracula-muted"><%= tx.status %></p>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <section class="rounded-3xl border-4 border-black bg-dracula-surface p-5 shadow-brutal">
+    <div class="mb-5 flex items-center justify-between">
+      <div>
+        <p class="text-sm uppercase tracking-[0.3em] text-dracula-muted">Recent Orders</p>
+        <h2 class="text-2xl font-black">Đơn gần đây</h2>
+      </div>
+      <span class="rounded-full border-4 border-black bg-dracula-primary px-4 py-2 font-bold text-black">4 orders</span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full border-separate border-spacing-y-3">
+        <thead>
+          <tr class="text-left text-sm uppercase tracking-[0.2em] text-dracula-muted">
+            <th class="px-4 py-2">Mã</th>
+            <th class="px-4 py-2">Dịch vụ</th>
+            <th class="px-4 py-2">Target</th>
+            <th class="px-4 py-2">SL</th>
+            <th class="px-4 py-2">Trạng thái</th>
+            <th class="px-4 py-2 text-right">Chi phí</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% recentOrders.forEach((order) => { %>
+            <tr class="rounded-2xl border-4 border-black bg-dracula-panel">
+              <td class="px-4 py-4 font-bold"><%= order.code %></td>
+              <td class="px-4 py-4"><%= order.service %></td>
+              <td class="px-4 py-4 text-sm text-dracula-muted"><%= order.target %></td>
+              <td class="px-4 py-4 font-bold"><%= order.quantity %></td>
+              <td class="px-4 py-4">
+                <span class="inline-flex rounded-full border-2 border-black px-3 py-1 text-xs font-bold <%= order.status === 'Hoàn thành' ? 'bg-dracula-green text-black' : order.status === 'Đang chạy' ? 'bg-dracula-yellow text-black' : 'bg-dracula-pink text-black' %>">
+                  <%= order.status %>
+                </span>
+              </td>
+              <td class="px-4 py-4 text-right font-black text-dracula-cyan"><%= order.cost.toLocaleString("vi-VN") %>đ</td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<%- include("./partials/layout-end") %>

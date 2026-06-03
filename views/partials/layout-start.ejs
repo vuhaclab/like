@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %> | Like Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              dracula: {
+                bg: "#1e1f29",
+                surface: "#282a36",
+                panel: "#2f3342",
+                panel2: "#343746",
+                primary: "#bd93f9",
+                pink: "#ff79c6",
+                cyan: "#8be9fd",
+                green: "#50fa7b",
+                yellow: "#f1fa8c",
+                red: "#ff5555",
+                text: "#f8f8f2",
+                muted: "#a8a8b3"
+              }
+            },
+            boxShadow: {
+              brutal: "6px 6px 0 0 #000000"
+            }
+          }
+        }
+      };
+    </script>
+    <script src="https://kit.fontawesome.com/9e8b5c8db4.js" crossorigin="anonymous"></script>
+  </head>
+  <body class="bg-dracula-bg text-dracula-text">
+    <% const pageNotice = typeof notice !== "undefined" ? notice : ""; %>
+    <% const pageError = typeof error !== "undefined" ? error : ""; %>
+    <div class="min-h-screen flex">
+      <aside class="hidden lg:flex w-72 flex-col border-r-4 border-black bg-dracula-surface">
+        <div class="p-6 border-b-4 border-black">
+          <div class="flex items-center gap-3">
+            <div class="h-12 w-12 flex items-center justify-center rounded-xl bg-dracula-primary border-4 border-black shadow-brutal">
+              <i class="fa-solid fa-bolt text-black text-xl"></i>
+            </div>
+            <div>
+              <p class="text-lg font-black tracking-wide">LIKE PANEL</p>
+              <p class="text-xs text-dracula-muted">Dashboard & Admin Panel</p>
+            </div>
+          </div>
+        </div>
+
+        <nav class="flex-1 p-4 space-y-2">
+          <% navItems.forEach((item) => { %>
+            <a
+              href="<%= item.href %>"
+              class="flex items-center gap-3 rounded-xl border-4 border-black px-4 py-3 font-bold shadow-brutal transition transform hover:-translate-y-0.5 <%= currentPath.startsWith(item.href) ? 'bg-dracula-primary text-black' : 'bg-dracula-panel hover:bg-dracula-panel2 text-dracula-text' %>"
+            >
+              <i class="fa-solid <%= item.icon %> w-5 text-center"></i>
+              <span><%= item.label %></span>
+            </a>
+          <% }) %>
+        </nav>
+
+        <div class="p-4 border-t-4 border-black">
+          <div class="rounded-2xl border-4 border-black bg-dracula-panel p-4 shadow-brutal">
+            <p class="text-sm text-dracula-muted">Tài khoản</p>
+            <p class="font-black text-lg"><%= user ? user.username : 'Khách' %></p>
+            <p class="text-xs text-dracula-cyan">Online · <%= user ? user.balance.toLocaleString('vi-VN') : 0 %>đ</p>
+          </div>
+        </div>
+      </aside>
+
+      <div class="flex-1 min-w-0">
+        <header class="sticky top-0 z-20 border-b-4 border-black bg-dracula-surface/95 backdrop-blur">
+          <div class="flex items-center justify-between gap-4 px-4 py-4 lg:px-8">
+            <div>
+              <p class="text-xs uppercase tracking-[0.35em] text-dracula-muted">Dracula Theme</p>
+              <h1 class="text-2xl font-black"><%= pageTitle %></h1>
+            </div>
+            <div class="flex items-center gap-3">
+              <a href="/login" class="inline-flex items-center gap-2 rounded-xl border-4 border-black bg-dracula-panel px-4 py-2 font-bold shadow-brutal hover:bg-dracula-panel2">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <span>Đăng nhập</span>
+              </a>
+              <div class="hidden sm:flex items-center gap-2 rounded-xl border-4 border-black bg-dracula-pink px-4 py-2 font-bold text-black shadow-brutal">
+                <i class="fa-solid fa-coins"></i>
+                <span><%= user ? user.balance.toLocaleString('vi-VN') : 0 %>đ</span>
+              </div>
+            </div>
+          </div>
+
+          <nav class="lg:hidden flex gap-2 overflow-x-auto px-4 pb-4">
+            <% navItems.forEach((item) => { %>
+              <a
+                href="<%= item.href %>"
+                class="whitespace-nowrap rounded-full border-4 border-black px-4 py-2 text-sm font-bold shadow-brutal <%= currentPath.startsWith(item.href) ? 'bg-dracula-primary text-black' : 'bg-dracula-panel text-dracula-text' %>"
+              >
+                <i class="fa-solid <%= item.icon %> mr-2"></i>
+                <%= item.label %>
+              </a>
+            <% }) %>
+          </nav>
+        </header>
+
+        <main class="p-4 lg:p-8">
+          <% if (pageNotice) { %>
+            <div class="mb-6 rounded-2xl border-4 border-black bg-dracula-green px-5 py-4 font-bold text-black shadow-brutal">
+              <i class="fa-solid fa-circle-check mr-2"></i>
+              <%= pageNotice %>
+            </div>
+          <% } %>
+          <% if (pageError) { %>
+            <div class="mb-6 rounded-2xl border-4 border-black bg-dracula-red px-5 py-4 font-bold text-white shadow-brutal">
+              <i class="fa-solid fa-triangle-exclamation mr-2"></i>
+              <%= pageError %>
+            </div>
+          <% } %>

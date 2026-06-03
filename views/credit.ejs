@@ -1,0 +1,93 @@
+<%- include("./partials/layout-start", { pageTitle, notice, error }) %>
+
+<div class="grid gap-6 xl:grid-cols-[1fr_0.8fr]">
+  <section class="rounded-3xl border-4 border-black bg-dracula-surface p-6 shadow-brutal">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <p class="text-sm uppercase tracking-[0.35em] text-dracula-muted">Top up</p>
+        <h2 class="mt-2 text-3xl font-black">Nạp Credit</h2>
+        <p class="mt-3 text-dracula-muted">Chọn phương thức và nhập số tiền để tạo yêu cầu nạp.</p>
+      </div>
+      <div class="rounded-2xl border-4 border-black bg-dracula-green px-4 py-3 font-black text-black shadow-brutal">
+        <i class="fa-solid fa-coins mr-2"></i>1,250,000đ
+      </div>
+    </div>
+
+    <form action="/credit" method="post" class="mt-6 space-y-4">
+      <div>
+        <label class="mb-2 block text-sm font-bold">Số tiền nạp</label>
+        <div class="flex items-center gap-3 rounded-2xl border-4 border-black bg-dracula-panel px-4 py-3 shadow-brutal">
+          <i class="fa-solid fa-vault text-dracula-yellow"></i>
+          <input
+            name="amount"
+            id="topup-amount"
+            type="number"
+            min="10000"
+            step="1000"
+            placeholder="Ví dụ: 200000"
+            class="w-full bg-transparent outline-none placeholder:text-dracula-muted"
+          />
+        </div>
+      </div>
+
+      <div class="grid gap-3 sm:grid-cols-3">
+        <button type="button" onclick="document.getElementById('topup-amount').value = 100000" class="rounded-2xl border-4 border-black bg-dracula-panel px-4 py-3 font-black shadow-brutal">100K</button>
+        <button type="button" onclick="document.getElementById('topup-amount').value = 500000" class="rounded-2xl border-4 border-black bg-dracula-panel px-4 py-3 font-black shadow-brutal">500K</button>
+        <button type="button" onclick="document.getElementById('topup-amount').value = 1000000" class="rounded-2xl border-4 border-black bg-dracula-panel px-4 py-3 font-black shadow-brutal">1M</button>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full rounded-2xl border-4 border-black bg-dracula-primary px-5 py-4 text-lg font-black text-black shadow-brutal"
+      >
+        <i class="fa-solid fa-paper-plane mr-2"></i>Tạo yêu cầu nạp
+      </button>
+    </form>
+
+    <div class="mt-6 rounded-3xl border-4 border-black bg-dracula-panel p-5 shadow-brutal">
+      <div class="flex items-center gap-3">
+        <i class="fa-solid fa-circle-info text-2xl text-dracula-cyan"></i>
+        <div>
+          <p class="font-black text-xl">Lưu ý</p>
+          <p class="text-sm text-dracula-muted">Nạp tối thiểu 10,000đ. Nội dung chuyển khoản hãy ghi đúng mã giao dịch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="space-y-6">
+    <div class="rounded-3xl border-4 border-black bg-dracula-panel p-6 shadow-brutal">
+      <p class="text-sm uppercase tracking-[0.35em] text-dracula-muted">Bank info</p>
+      <h3 class="mt-2 text-2xl font-black">Thông tin chuyển khoản</h3>
+      <div class="mt-5 space-y-4">
+        <% banks.forEach((bank) => { %>
+          <div class="rounded-2xl border-4 border-black bg-dracula-surface p-4">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <p class="font-black text-xl"><%= bank.name %></p>
+                <p class="text-sm text-dracula-muted">Chủ tài khoản</p>
+                <p class="font-bold"><%= bank.owner %></p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm text-dracula-muted">Số tài khoản</p>
+                <p class="font-black text-lg text-dracula-cyan"><%= bank.account %></p>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <div class="rounded-3xl border-4 border-black bg-dracula-surface p-6 shadow-brutal">
+      <p class="text-sm uppercase tracking-[0.35em] text-dracula-muted">Steps</p>
+      <h3 class="mt-2 text-2xl font-black">Quy trình nạp</h3>
+      <ol class="mt-5 space-y-4">
+        <li class="rounded-2xl border-4 border-black bg-dracula-panel p-4"><span class="font-black text-dracula-pink">01.</span> Chọn số tiền và gửi yêu cầu.</li>
+        <li class="rounded-2xl border-4 border-black bg-dracula-panel p-4"><span class="font-black text-dracula-pink">02.</span> Chuyển khoản đến tài khoản bên cạnh.</li>
+        <li class="rounded-2xl border-4 border-black bg-dracula-panel p-4"><span class="font-black text-dracula-pink">03.</span> Hệ thống sẽ ghi nhận credit sau khi đối soát.</li>
+      </ol>
+    </div>
+  </section>
+</div>
+
+<%- include("./partials/layout-end") %>
